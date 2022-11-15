@@ -1,9 +1,11 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
+import { darkMode } from "../../../../Context/DarkContext";
 
 const Modal = ({modalDetails, selectedDate, setModalDetails}) => {
     const date = format(selectedDate, 'PP')
     const {name, slots} = modalDetails
+    const {dark} = useContext(darkMode)
 
 
     const handleAppointment = (event) => {
@@ -33,7 +35,7 @@ const Modal = ({modalDetails, selectedDate, setModalDetails}) => {
     <>
       <input type="checkbox" id="appointment-modal" className="modal-toggle" />
       <div className="modal">
-        <div className="modal-box relative">
+        <div className={`modal-box relative ${dark && 'text-white bg-gray-900'}`}>
           <label
             htmlFor="appointment-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
@@ -49,12 +51,12 @@ const Modal = ({modalDetails, selectedDate, setModalDetails}) => {
             type="text" 
             value={date} 
             readOnly
-            className=" focus:outline-none input input-bordered w-full bg-gray-200 my-2"
+            className={`focus:outline-none input input-bordered w-full bg-gray-200 my-2 ${dark && 'text-white bg-gray-900'}`}
             />
             <select 
             name="time" 
             type="text" 
-            className=" focus:outline-none input input-bordered w-full bg-gray-200 my-2"
+            className={`focus:outline-none input input-bordered w-full bg-gray-200 my-2 ${dark && 'text-white bg-gray-900'}`}
             >
             {
                 slots.map((slot, idx) => <option key={idx}>{slot}</option>)
@@ -64,19 +66,19 @@ const Modal = ({modalDetails, selectedDate, setModalDetails}) => {
             name="name" 
             type="text" 
             placeholder="Full Name"
-            className=" focus:outline-none input input-bordered w-full my-2"
+            className={`pr-3 focus:outline-none input input-bordered w-full bg-gray-200 my-2 ${dark && 'text-white bg-gray-900'}`}
             />
             <input 
             name="email" 
             type="email" 
             placeholder="Email"
-            className=" focus:outline-none input input-bordered w-full my-2"
+            className={`focus:outline-none input input-bordered w-full bg-gray-200 my-2 ${dark && 'text-white bg-gray-900'}`}
             />
             <input 
             name="number" 
             type="text" 
             placeholder="Number"
-            className=" focus:outline-none input input-bordered w-full my-2"
+            className={`focus:outline-none input input-bordered w-full bg-gray-200 my-2 ${dark && 'text-white bg-gray-900'}`}
             />
             <button type="submit" className="btn w-full mt-4">Submit</button>
           </form>

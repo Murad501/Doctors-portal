@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { darkMode } from "../../Context/DarkContext";
+import { authContext } from "../../Context/UserContext";
 
 const Header = () => {
-  const Menu = 
-    <>
-      <li>
-        <Link to='/'>Home</Link>
-      </li>
-      <li>
-        <Link to='/about'>About</Link>
-      </li>
-      <li>
-        <Link to='/appointment'>Appointment</Link>
-      </li>
-      <li>
-        <Link to='/reviews'>Reviews</Link>
-      </li>
-      <li>
-        <Link to='/contact'>Contact Us</Link>
-      </li>
-    </>
+  const { user, logOut } = useContext(authContext);
+  const {dark, setDark} = useContext(darkMode)
+
+  const handleLogout = () => {
+    logOut().then(()=>{}).catch(()=>{})
+  } 
   
+  const Menu = (
+    <div className="flex items-center gap-3">
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/appointment">Appointment</Link>
+      </li>
+      {user?.email ? (
+        <button onClick={handleLogout}>Log Out</button>
+      ) : (
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      )}
+      <input onChange={()=>setDark(!dark)} type="checkbox" className="toggle border-neutral bg-neutral" />
+    </div>
+  );
+  
+
 
   return (
     <div className="navbar py-3">
@@ -46,15 +59,15 @@ const Header = () => {
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-           {Menu}
+            {Menu}
           </ul>
         </div>
-        <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
+        <Link to="/" className="btn btn-ghost normal-case text-xl">
+          Doctors Portal
+        </Link>
       </div>
       <div className="navbar-end hidden lg:flex">
-        <ul className="menu menu-horizontal p-0">
-          {Menu}
-        </ul>
+        <ul className="menu menu-horizontal p-0">{Menu}</ul>
       </div>
     </div>
   );
